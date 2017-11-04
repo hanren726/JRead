@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">JRead</string>
+    <string name="zhihu_fragment">zhihu fragment</string>
+    <string name="guoke_fragment">guoke fragment</string>
+    <string name="qiubai_fragment">qiubai fragment</string>
+</resources>
