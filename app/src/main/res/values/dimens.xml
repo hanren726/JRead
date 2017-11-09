@@ -3,4 +3,13 @@
     <dimen name="btn_tabbar_icon_size">28dp</dimen>
     <dimen name="btn_tabbar_icon_bottom_margin">16dp</dimen>
     <dimen name="tpd_tabbar_container_height">50dp</dimen>
+
+
+    <dimen name="top_tab_padding">17dp</dimen>
+    <dimen name="top_tab_indicator_width">50dp</dimen>
+    <dimen name="top_tab_indicator_height">2dp</dimen>
+    <dimen name="top_tab_indicator_leftMargin">51dp</dimen>
+    <dimen name="top_tab_title_width">90dp</dimen>
+
+    <dimen name="funcbar_height">48dip</dimen>
 </resources>
