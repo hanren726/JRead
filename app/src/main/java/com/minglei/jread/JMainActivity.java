@@ -38,13 +38,13 @@ public class JMainActivity extends AppCompatActivity {
 
     private void initViews() {
 
-        mLeftDrawer = findViewById(R.id.menu_layout_left);
+        mLeftDrawer = (LeftDrawer) findViewById(R.id.menu_layout_left);
         mLeftDrawer.setParentActivity(this);
 
         View rootView = findViewById(R.id.tab_activity_main_view);
-        mViewPager = rootView.findViewById(R.id.viewpager);
+        mViewPager = (JCustomViewPager) rootView.findViewById(R.id.viewpager);
         mViewPager.setCanScroll(false);
-        mTabBar = rootView.findViewById(R.id.tabs_container);
+        mTabBar = (RadioGroup) rootView.findViewById(R.id.tabs_container);
 
         TabBarInfo f1 = new TabBarInfo();
         ZhihuFragment zhihuFragment = new ZhihuFragment();

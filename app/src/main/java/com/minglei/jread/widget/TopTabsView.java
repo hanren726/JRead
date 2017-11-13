@@ -80,7 +80,7 @@ public class TopTabsView extends RelativeLayout {
             return;
         }
         for (int i=0; i<childCount; i++) {
-            TextView childRedDotView = mTabsContainer.getChildAt(i).findViewById(R.id.reddot);
+            TextView childRedDotView = (TextView) mTabsContainer.getChildAt(i).findViewById(R.id.reddot);
             if (i == position) {
                 childRedDotView.setVisibility(VISIBLE);
             } else {
@@ -114,7 +114,7 @@ public class TopTabsView extends RelativeLayout {
 
             mTabTitleView = new TabTitleView(getContext());
             mTabTitleView.setTag(index);
-            TextView title = mTabTitleView.findViewById(R.id.title);
+            TextView title = (TextView) mTabTitleView.findViewById(R.id.title);
             title.setText(titles[index]);
             title.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
             mTabTitleView.setOnClickListener(new OnClickListener() {
@@ -140,8 +140,8 @@ public class TopTabsView extends RelativeLayout {
             return;
         }
         for (int i=0; i<childCount; i++) {
-            TextView childTitleView = mTabsContainer.getChildAt(i).findViewById(R.id.title);
-            TextView childRedDotView = mTabsContainer.getChildAt(i).findViewById(R.id.reddot);
+            TextView childTitleView = (TextView) mTabsContainer.getChildAt(i).findViewById(R.id.title);
+            TextView childRedDotView = (TextView) mTabsContainer.getChildAt(i).findViewById(R.id.reddot);
             if (i == position) {
                 childTitleView.setTextColor(mSelectedColor);
                 childRedDotView.setVisibility(GONE);

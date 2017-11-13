@@ -8,11 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.minglei.jread.R;
+import com.minglei.jread.base.BaseFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ZhihuProfFragment extends Fragment {
+public class ZhihuProfFragment extends BaseFragment {
 
 
     public ZhihuProfFragment() {

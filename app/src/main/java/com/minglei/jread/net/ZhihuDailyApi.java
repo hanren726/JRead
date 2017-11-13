@@ -1,5 +1,8 @@
 package com.minglei.jread.net;
 
+import com.minglei.jread.beans.zhihu.ZhihuDailyContentBean;
+import com.minglei.jread.beans.zhihu.ZhihuLatestNews;
+
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import rx.Observable;
@@ -12,15 +15,12 @@ public interface ZhihuDailyApi {
 
     String baseUrl = "http://news-at.zhihu.com/api/4/";
 
-//    @GET("start-image/1080*1920")
-//    Observable<SplashImage> getSplashImage();
-//
-//    @GET("news/latest")
-//    Observable<NewsTimeLine> getLatestNews();
-//
-//    @GET("news/before/{time}")
-//    Observable<NewsTimeLine> getBeforetNews(@Path("time") String time);
-//
-//    @GET("news/{id}")
-//    Observable<News> getDetailNews(@Path("id") String id);
+    @GET("news/latest")
+    Observable<ZhihuLatestNews> getLatestNews();
+
+    @GET("news/before/{time}")
+    Observable<ZhihuLatestNews> getBeforetNews(@Path("time") String time);
+
+    @GET("news/{id}")
+    Observable<ZhihuDailyContentBean> getDetailNews(@Path("id") String id);
 }

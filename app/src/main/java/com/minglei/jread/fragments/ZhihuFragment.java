@@ -61,7 +61,7 @@ public class ZhihuFragment extends JTabFragment {
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_zhihu, container, false);
 
-        ZhihuDailyFragment zhihuDailyFragment = new ZhihuDailyFragment();
+        ZhihuDailyFragment zhihuDailyFragment = ZhihuDailyFragment.newInstance();
         ZhihuProfFragment zhihuProfFragment = new ZhihuProfFragment();
         mFragments.add(zhihuDailyFragment);
         mFragments.add(zhihuProfFragment);
@@ -71,12 +71,12 @@ public class ZhihuFragment extends JTabFragment {
         mAdapter.addTab(ZhihuDailyFragment.class, "知乎日报", null);
         mAdapter.addTab(ZhihuProfFragment.class, "知乎专栏", null);
 
-        mCustomViewPager = mRootView.findViewById(R.id.viewpager);
+        mCustomViewPager = (JCustomViewPager) mRootView.findViewById(R.id.viewpager);
         mCustomViewPager.setCanScroll(true);
         mCustomViewPager.addOnPageChangeListener(mViewPageChangeListener);
         mCustomViewPager.setAdapter(mAdapter);
 
-        mTopTabs = mRootView.findViewById(R.id.custom_indicator);
+        mTopTabs = (TopTabsView) mRootView.findViewById(R.id.custom_indicator);
         mTopTabs.setTabs("知乎日报", "知乎专栏");
         mTopTabs.setOnTabsItemClickListener(new TopTabsView.onTabsItemClickListener() {
             @Override
