@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.minglei.jread.beans.zhihu.StoriesBean;
 import com.minglei.jread.beans.zhihu.ZhihuLatestNews;
 import com.minglei.jread.fragments.adapter.ZhihuDailyListAdapter;
 import com.minglei.jread.fragments.interfaces.IZhihuDailyView;
@@ -60,6 +61,7 @@ public class ZhihuDailyPresenter{
 
                     @Override
                     public void onNext(ZhihuLatestNews zhihuLatestNews) {
+                        Log.i(TAG, "zhihuLatestNews size:" + (zhihuLatestNews != null ? zhihuLatestNews.getStories().size() : 0));
                         mAdapter.setData(zhihuLatestNews);
                         mRecyclerView.setAdapter(mAdapter);
                     }
@@ -67,6 +69,9 @@ public class ZhihuDailyPresenter{
         mSubscriptions.add(subscription);
     }
 
+    public void viewNews(StoriesBean storiesBean) {
+
+    }
 
     public void onUnInit() {
         Log.i(TAG, "onUnInit :");

@@ -61,7 +61,7 @@ public class ZhihuFragment extends JTabFragment {
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_zhihu, container, false);
 
-        ZhihuDailyFragment zhihuDailyFragment = ZhihuDailyFragment.newInstance();
+        ZhihuDailyFragment zhihuDailyFragment = new ZhihuDailyFragment();
         ZhihuProfFragment zhihuProfFragment = new ZhihuProfFragment();
         mFragments.add(zhihuDailyFragment);
         mFragments.add(zhihuProfFragment);

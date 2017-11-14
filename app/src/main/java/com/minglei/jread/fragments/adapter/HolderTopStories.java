@@ -40,7 +40,7 @@ public class HolderTopStories extends HolderBase<List<TopStoriesBean>> implement
     private static final String BUNDLE_TITLE = "title";
     private static final String BUNDLE_URL = "image";
 
-    private CompositeSubscription mSubscriptions;
+    private CompositeSubscription mSubscriptions = new CompositeSubscription();
 
     public HolderTopStories(View itemView) {
         super(itemView);
@@ -51,21 +51,10 @@ public class HolderTopStories extends HolderBase<List<TopStoriesBean>> implement
     @Override
     public void bindHolder(List<TopStoriesBean> topStoriesBeans) {
         super.bindHolder(topStoriesBeans);
-        Subscription subscription = Observable.just(topStoriesBeans)
-                .filter(new Func1<List<TopStoriesBean>, Boolean>() {
-                    @Override
-                    public Boolean call(List<TopStoriesBean> topStoriesBeans) {
-                        Log.e(TAG, "topStoriesBeans is null");
-                        return topStoriesBeans != null;
-                    }
-                })
+        Log.i(TAG, "topSory size :" + topStoriesBeans.size());
+        mSlider.removeAllSliders();
+        Subscription subscription = Observable.from(topStoriesBeans)
                 .subscribeOn(Schedulers.io())
-                .flatMap(new Func1<List<TopStoriesBean>, Observable<TopStoriesBean>>() {
-                    @Override
-                    public Observable<TopStoriesBean> call(List<TopStoriesBean> topStoriesBeans) {
-                        return Observable.from(topStoriesBeans);
-                    }
-                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<TopStoriesBean>() {
                     @Override
