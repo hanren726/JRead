@@ -6,12 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.minglei.jread.R;
 import com.minglei.jread.base.HolderBase;
 import com.minglei.jread.beans.zhihu.StoriesBean;
 import com.minglei.jread.beans.zhihu.ZhihuLatestNews;
-import com.minglei.jread.fragments.interfaces.MyItemClickListener;
+import com.minglei.jread.fragments.interfaces.ItemClickListener;
 import com.minglei.jread.net.ZhihuDailyApi;
 
 /**
@@ -28,7 +29,7 @@ public class ZhihuDailyListAdapter extends RecyclerView.Adapter<HolderBase> {
     private static final int TYPE_TOP_STORY = -1;
     private static final int TYPE_NORMAL = -2;
 
-    private MyItemClickListener mItemClickListener;
+    private ItemClickListener mItemClickListener;
 
     public ZhihuDailyListAdapter(Context context) {
         this.mContext = context;
@@ -59,7 +60,11 @@ public class ZhihuDailyListAdapter extends RecyclerView.Adapter<HolderBase> {
     }
 
     public StoriesBean getItem(int position) {
-        return position < mZhihuLatestNews.getStories().size() ? mZhihuLatestNews.getStories().get(position) : null;
+        if (mZhihuLatestNews == null) {
+            return null;
+        } else {
+            return position < mZhihuLatestNews.getStories().size() ? mZhihuLatestNews.getStories().get(position) : null;
+        }
     }
 
     @Override
@@ -77,7 +82,11 @@ public class ZhihuDailyListAdapter extends RecyclerView.Adapter<HolderBase> {
 
     @Override
     public int getItemCount() {
-        return mZhihuLatestNews.getStories().size() + (mZhihuLatestNews.getTop_stories() == null ? 0 : 1);
+        if (mZhihuLatestNews == null) {
+            return 0;
+        } else {
+            return mZhihuLatestNews.getStories().size() + (mZhihuLatestNews.getTop_stories() == null ? 0 : 1);
+        }
     }
 
     @Override
@@ -90,7 +99,7 @@ public class ZhihuDailyListAdapter extends RecyclerView.Adapter<HolderBase> {
      * 设置Item点击监听
      * @param listener
      */
-    public void setOnItemClickListener(MyItemClickListener listener){
+    public void setOnItemClickListener(ItemClickListener listener){
         Log.i(TAG, "setOnItemClickListener listener is null:" + (listener == null));
         this.mItemClickListener = listener;
     }

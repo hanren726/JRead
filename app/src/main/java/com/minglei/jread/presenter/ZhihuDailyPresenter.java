@@ -44,7 +44,7 @@ public class ZhihuDailyPresenter{
 
     public void getDailyNews() {
         mRecyclerView = iZhihuDailyView.getRecyclerView();
-        mAdapter = new ZhihuDailyListAdapter(mContext);
+        mAdapter = iZhihuDailyView.getAdapter();
         Subscription subscription = mZhihuApi.getLatestNews()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

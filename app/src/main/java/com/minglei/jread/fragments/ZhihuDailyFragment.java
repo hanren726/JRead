@@ -15,25 +15,21 @@ import com.minglei.jread.R;
 import com.minglei.jread.base.BaseFragment;
 import com.minglei.jread.fragments.adapter.ZhihuDailyListAdapter;
 import com.minglei.jread.fragments.interfaces.IZhihuDailyView;
-import com.minglei.jread.fragments.interfaces.MyItemClickListener;
+import com.minglei.jread.fragments.interfaces.ItemClickListener;
 import com.minglei.jread.presenter.ZhihuDailyPresenter;
 import com.minglei.jread.utils.NetworkUtils;
 import com.minglei.jread.utils.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshFooter;
-import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView, MyItemClickListener{
+public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView, ItemClickListener {
 
     private ZhihuDailyPresenter mPresenter;
     private View mRootView;
@@ -104,6 +100,11 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
     @Override
     public RecyclerView getRecyclerView() {
         return mRecyclerView;
+    }
+
+    @Override
+    public ZhihuDailyListAdapter getAdapter() {
+        return mAdapter;
     }
 
     @Override

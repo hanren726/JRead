@@ -10,17 +10,9 @@ import com.bumptech.glide.Glide;
 import com.minglei.jread.R;
 import com.minglei.jread.base.HolderBase;
 import com.minglei.jread.beans.zhihu.StoriesBean;
-import com.minglei.jread.fragments.interfaces.MyItemClickListener;
+import com.minglei.jread.fragments.interfaces.ItemClickListener;
 import com.minglei.jread.utils.ToastUtil;
 import com.minglei.jread.utils.TypefaceUtil;
-
-import java.util.List;
-
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -36,11 +28,11 @@ public class HolderStories extends HolderBase<StoriesBean> implements View.OnCli
     private TextView mMultiImage;
 
     private Context mContext;
-    private MyItemClickListener mItemClickListener;
+    private ItemClickListener mItemClickListener;
 
     private CompositeSubscription mSubcriptions = new CompositeSubscription();
 
-    public HolderStories(View itemView, MyItemClickListener myItemClickListener) {
+    public HolderStories(View itemView, ItemClickListener myItemClickListener) {
         super(itemView);
         mContext = itemView.getContext();
         mTilte = (TextView) itemView.findViewById(R.id.story_title);
