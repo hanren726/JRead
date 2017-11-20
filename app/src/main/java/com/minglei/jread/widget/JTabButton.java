@@ -2,6 +2,7 @@ package com.minglei.jread.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -42,7 +43,8 @@ public class JTabButton extends RelativeLayout {
         JTabButton btn = JTabButton.buttonStyleVerticalImageLabel(tabBar);
         int width = (ScreenSizeUtil.getScreenSize().widthPixels - btn.middleGap) / TAB_BUTTON_SUM;
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, LinearLayout.LayoutParams.MATCH_PARENT);
-        btn.mainImage.setImageDrawable(JApplication.getAppContext().getDrawable(R.drawable.v6_common_tabbar_dialer));
+        btn.mainImage.setImageDrawable(JApplication.getAppContext().getDrawable(R.drawable.tab_button_zhihu));
+        lp.gravity = Gravity.CENTER_VERTICAL;
         tabBar.addView(btn, lp);
         return btn;
     }
@@ -51,7 +53,18 @@ public class JTabButton extends RelativeLayout {
         JTabButton btn = JTabButton.buttonStyleVerticalImageLabel(tabBar);
         int width = (ScreenSizeUtil.getScreenSize().widthPixels - btn.middleGap) / TAB_BUTTON_SUM;
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, LinearLayout.LayoutParams.MATCH_PARENT);
-        btn.mainImage.setImageDrawable(JApplication.getAppContext().getDrawable(R.drawable.v6_common_tabbar_dialer));
+        btn.mainImage.setImageDrawable(JApplication.getAppContext().getDrawable(R.drawable.tab_button_guoke));
+        lp.gravity = Gravity.CENTER_VERTICAL;
+        tabBar.addView(btn, lp);
+        return btn;
+    }
+
+    public static JTabButton DoubanTabBtn(ViewGroup tabBar){
+        JTabButton btn = JTabButton.buttonStyleVerticalImageLabel(tabBar);
+        int width = (ScreenSizeUtil.getScreenSize().widthPixels - btn.middleGap) / TAB_BUTTON_SUM;
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, LinearLayout.LayoutParams.MATCH_PARENT);
+        btn.mainImage.setImageDrawable(JApplication.getAppContext().getDrawable(R.drawable.tab_button_douban));
+        lp.gravity = Gravity.CENTER;
         tabBar.addView(btn, lp);
         return btn;
     }
@@ -60,7 +73,8 @@ public class JTabButton extends RelativeLayout {
         JTabButton btn = JTabButton.buttonStyleVerticalImageLabel(tabBar);
         int width = (ScreenSizeUtil.getScreenSize().widthPixels - btn.middleGap) / TAB_BUTTON_SUM;
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, LinearLayout.LayoutParams.MATCH_PARENT);
-        btn.mainImage.setImageDrawable(JApplication.getAppContext().getDrawable(R.drawable.v6_common_tabbar_dialer));
+        btn.mainImage.setImageDrawable(JApplication.getAppContext().getDrawable(R.drawable.tab_button_qiubai));
+        lp.gravity = Gravity.CENTER_VERTICAL;
         tabBar.addView(btn, lp);
         return btn;
     }

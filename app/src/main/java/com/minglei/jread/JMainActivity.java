@@ -55,7 +55,7 @@ public class JMainActivity extends AppCompatActivity {
         TabBarInfo f2 = new TabBarInfo();
         GuokeFragment guokeFragment = new GuokeFragment();
         f2.fragment = guokeFragment;
-        f2.btn = JTabButton.GuokeTabBtn(mTabBar);
+        f2.btn = JTabButton.DoubanTabBtn(mTabBar);
 
         TabBarInfo f3 = new TabBarInfo();
         QiubaiFragment qiubaiFragment = new QiubaiFragment();
