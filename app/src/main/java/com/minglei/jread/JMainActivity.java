@@ -44,7 +44,7 @@ public class JMainActivity extends AppCompatActivity {
         View rootView = findViewById(R.id.tab_activity_main_view);
         mViewPager = (JCustomViewPager) rootView.findViewById(R.id.viewpager);
         mViewPager.setCanScroll(false);
-        mTabBar = (RadioGroup) rootView.findViewById(R.id.tabs_container);
+        mTabBar = (RadioGroup) findViewById(R.id.tabs_container);
 
         TabBarInfo f1 = new TabBarInfo();
         ZhihuFragment zhihuFragment = new ZhihuFragment();
