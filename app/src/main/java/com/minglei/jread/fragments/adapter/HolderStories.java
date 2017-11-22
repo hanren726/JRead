@@ -70,7 +70,6 @@ public class HolderStories extends HolderBase<StoriesBean> implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        ToastUtil.forceToShowToastInCenter("onclick!");
         if (mItemClickListener != null) {
             mItemClickListener.onItemClick(v, getPosition());
         }

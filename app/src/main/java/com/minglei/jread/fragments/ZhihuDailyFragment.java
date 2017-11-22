@@ -4,7 +4,6 @@ package com.minglei.jread.fragments;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,9 +25,6 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView, ItemClickListener {
 
     private ZhihuDailyPresenter mPresenter;
@@ -125,7 +121,6 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
 
     @Override
     public void onItemClick(View view, int postion) {
-        ToastUtil.forceToShowToastInCenter("onclick!!!!!!!!!!!");
         mPresenter.viewNews(mAdapter.getItem(postion));
     }
 

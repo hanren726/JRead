@@ -1,10 +1,12 @@
 package com.minglei.jread.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.minglei.jread.activity.ZhihuDailyNewsWebActivity;
 import com.minglei.jread.beans.zhihu.StoriesBean;
 import com.minglei.jread.beans.zhihu.ZhihuLatestNews;
 import com.minglei.jread.fragments.adapter.ZhihuDailyListAdapter;
@@ -70,7 +72,9 @@ public class ZhihuDailyPresenter{
     }
 
     public void viewNews(StoriesBean storiesBean) {
-
+        Intent intent = ZhihuDailyNewsWebActivity.getStartIntent();
+        intent.putExtra(ZhihuDailyNewsWebActivity.BUNDLE_ID, storiesBean.getId());
+        mContext.startActivity(intent);
     }
 
     public void onUnInit() {

@@ -22,5 +22,5 @@ public interface ZhihuDailyApi {
     Observable<ZhihuLatestNews> getBeforetNews(@Path("time") String time);
 
     @GET("news/{id}")
-    Observable<ZhihuDailyContentBean> getDetailNews(@Path("id") String id);
+    Observable<ZhihuDailyContentBean> getDetailNews(@Path("id") int id);
 }

@@ -21,7 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.NewsWebActivity"></activity>
+        <activity android:name=".activity.ZhihuDailyNewsWebActivity"></activity>
     </application>
 
 </manifest>
