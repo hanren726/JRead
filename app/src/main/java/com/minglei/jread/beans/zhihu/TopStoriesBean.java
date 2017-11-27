@@ -60,4 +60,15 @@ public class TopStoriesBean implements Serializable{
     public void setTitle(String title) {
         this.title = title;
     }
+
+    @Override
+    public String toString() {
+        return "TopStoriesBean{" +
+                "image='" + image + '\'' +
+                ", type=" + type +
+                ", id=" + id +
+                ", ga_prefix='" + ga_prefix + '\'' +
+                ", title='" + title + '\'' +
+                '}';
+    }
 }

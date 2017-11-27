@@ -12,6 +12,7 @@ import com.minglei.jread.fragments.adapter.ZhihudailyAdapter;
 import com.minglei.jread.fragments.interfaces.IZhihuDailyView;
 import com.minglei.jread.net.ApiFactory;
 import com.minglei.jread.net.ZhihuDailyApi;
+import com.minglei.jread.utils.JLog;
 
 import java.util.ArrayList;
 
@@ -38,6 +39,10 @@ public class ZhihuDailyPresenter{
     private ZhihudailyAdapter mAdapter;
     private CompositeSubscription mSubscriptions = new CompositeSubscription();
 
+    private ArrayList<ZhihuLatestNews> allNews = new ArrayList<>();
+
+    private String mLatestTime;
+
     public ZhihuDailyPresenter(Context context, IZhihuDailyView iZhihuDailyView) {
         this.mContext = context;
         this.iZhihuDailyView = iZhihuDailyView;
@@ -52,21 +57,52 @@ public class ZhihuDailyPresenter{
                 .subscribe(new Subscriber<ZhihuLatestNews>() {
                     @Override
                     public void onCompleted() {
-
+                        JLog.i(TAG, "getDailyNews onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        JLog.e(TAG, "getDailyNews onError : [%s]", e);
                     }
 
                     @Override
                     public void onNext(ZhihuLatestNews zhihuLatestNews) {
-                        Log.i(TAG, "zhihuLatestNews size:" + (zhihuLatestNews != null ? zhihuLatestNews.getStories().size() : 0));
-                        ArrayList<ZhihuLatestNews> allNews = new ArrayList<>();
+                        JLog.i(TAG, "zhihuLatestNews :[%s], time : [%s]", zhihuLatestNews,
+                                zhihuLatestNews.getDate());
                         allNews.add(zhihuLatestNews);
                         mAdapter.setData(allNews);
                         mRecyclerView.setAdapter(mAdapter);
+                        mLatestTime = zhihuLatestNews.getDate();
+                    }
+                });
+        mSubscriptions.add(subscription);
+    }
+
+    public void getBeforeNews() {
+        mRecyclerView = iZhihuDailyView.getRecyclerView();
+        mAdapter = iZhihuDailyView.getAdapter();
+        Subscription subscription = mZhihuApi.getBeforetNews(mLatestTime)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ZhihuLatestNews>() {
+                    @Override
+                    public void onCompleted() {
+                        JLog.i(TAG, "getBeforeNews onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        JLog.e(TAG, "getBeforeNews onError : [%s]", e);
+                    }
+
+                    @Override
+                    public void onNext(ZhihuLatestNews zhihuLatestNews) {
+                        JLog.i(TAG, "zhihuLatestNews :[%s], time : [%s]", zhihuLatestNews,
+                                zhihuLatestNews.getDate());
+                        allNews.add(zhihuLatestNews);
+                        mAdapter.updateData(allNews);
+                        mAdapter.notifyDataSetChanged();
+                        mLatestTime = zhihuLatestNews.getDate();
                     }
                 });
         mSubscriptions.add(subscription);

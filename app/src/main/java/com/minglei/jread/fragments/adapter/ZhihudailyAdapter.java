@@ -57,10 +57,17 @@ public class ZhihudailyAdapter extends GroupedRecyclerViewAdapter implements Vie
 
     public void setData(ArrayList<ZhihuLatestNews> zhihuLatestNews) {
         this.mZhihuLatestNews = zhihuLatestNews;
-        JLog.i(TAG, "mZhihuLatestNews is [%s]", mZhihuLatestNews);
-        for (int i=0; i<mZhihuLatestNews.size(); i++) {
-            JLog.i(TAG, "top story size is [%d], story size is [%d]",
-                    mZhihuLatestNews.get(i).getTop_stories().size(), mZhihuLatestNews.get(i).getStories().size());
+        for (int i = 0; i < mZhihuLatestNews.size(); i++) {
+            JLog.i(TAG, "setData top story is [%s], story is [%s]",
+                    mZhihuLatestNews.get(i).getTop_stories(), mZhihuLatestNews.get(i).getStories());
+        }
+    }
+
+    public void updateData(ArrayList<ZhihuLatestNews> zhihuLatestNews) {
+        this.mZhihuLatestNews = zhihuLatestNews;
+        for (int i = 0; i < mZhihuLatestNews.size(); i++) {
+            JLog.i(TAG, "updateData top story is [%s], story is [%s]",
+                    mZhihuLatestNews.get(i).getTop_stories(), mZhihuLatestNews.get(i).getStories());
         }
     }
 
@@ -136,47 +143,53 @@ public class ZhihudailyAdapter extends GroupedRecyclerViewAdapter implements Vie
     public void onBindChildViewHolder(final BaseViewHolder holder, int groupPosition, int childPosition) {
         JLog.i(TAG, "onBindChildViewHolder groupPosition:[%d], childPosition:[%d]", groupPosition, childPosition);
         if (getChildViewType(groupPosition, childPosition) == TYPE_TOP_STORY) {
-            final SliderLayout mSlider = (SliderLayout) holder.get(R.id.slider);
+            final SliderLayout slider = (SliderLayout) holder.get(R.id.slider);
             List<TopStoriesBean> topStoriesBeans = mZhihuLatestNews.get(groupPosition).getTop_stories();
-            Log.i(TAG, "topSory size :" + topStoriesBeans.size());
-            mSlider.removeAllSliders();
-            Subscription subscription = Observable.from(topStoriesBeans)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<TopStoriesBean>() {
-                        @Override
-                        public void onCompleted() {
-                            mSlider.setCustomIndicator((PagerIndicator) holder.get(R.id.custom_indicator));
-                            mSlider.setPresetTransformer(SliderLayout.Transformer.Default);
-                            mSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-                            mSlider.setCustomAnimation(new DescriptionAnimation());
-                            mSlider.setDuration(4000);
-                            mSlider.addOnPageChangeListener(ZhihudailyAdapter.this);
-                        }
+            if (topStoriesBeans != null) {
+                Log.i(TAG, "topStory size :" + topStoriesBeans.size());
+                slider.setVisibility(View.VISIBLE);
+                slider.removeAllSliders();
+                Subscription subscription = Observable.from(topStoriesBeans)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<TopStoriesBean>() {
+                            @Override
+                            public void onCompleted() {
+                                slider.setCustomIndicator((PagerIndicator) holder.get(R.id.custom_indicator));
+                                slider.setPresetTransformer(SliderLayout.Transformer.Default);
+                                slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+                                slider.setCustomAnimation(new DescriptionAnimation());
+                                slider.setDuration(4000);
+                                slider.addOnPageChangeListener(ZhihudailyAdapter.this);
+                            }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.e(TAG, "error!!!");
-                            e.printStackTrace();
-                        }
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e(TAG, "error!!!");
+                                e.printStackTrace();
+                            }
 
-                        @Override
-                        public void onNext(TopStoriesBean topStoriesBean) {
-                            TextSliderView textSliderView = new TextSliderView(mContext);
-                            textSliderView
-                                    .description(topStoriesBean.getTitle())
-                                    .image(topStoriesBean.getImage())
-                                    .setScaleType(BaseSliderView.ScaleType.Fit)
-                                    .setOnSliderClickListener(ZhihudailyAdapter.this);
-                            //add your extra information
-                            textSliderView.bundle(new Bundle());
-                            textSliderView.getBundle().putString(BUNDLE_TITLE, topStoriesBean.getTitle());
-                            textSliderView.getBundle().putString(BUNDLE_URL, topStoriesBean.getImage());
-                            textSliderView.getBundle().putInt(BUNDLE_ID, topStoriesBean.getId());
-                            mSlider.addSlider(textSliderView);
-                        }
-                    });
-            mSubscriptions.add(subscription);
+                            @Override
+                            public void onNext(TopStoriesBean topStoriesBean) {
+                                TextSliderView textSliderView = new TextSliderView(mContext);
+                                textSliderView
+                                        .description(topStoriesBean.getTitle())
+                                        .image(topStoriesBean.getImage())
+                                        .setScaleType(BaseSliderView.ScaleType.Fit)
+                                        .setOnSliderClickListener(ZhihudailyAdapter.this);
+                                //add your extra information
+                                textSliderView.bundle(new Bundle());
+                                textSliderView.getBundle().putString(BUNDLE_TITLE, topStoriesBean.getTitle());
+                                textSliderView.getBundle().putString(BUNDLE_URL, topStoriesBean.getImage());
+                                textSliderView.getBundle().putInt(BUNDLE_ID, topStoriesBean.getId());
+                                slider.addSlider(textSliderView);
+                            }
+                        });
+                mSubscriptions.add(subscription);
+            } else {
+                //TODO item的内容为gone的时候，但是头部和尾部的divide还在，会多出一些空白，待处理
+                slider.setVisibility(View.GONE);
+            }
         } else {
             TextView title = (TextView) holder.get(R.id.story_title);
             TextView multiImage = (TextView) holder.get(R.id.story_count);
@@ -226,7 +239,6 @@ public class ZhihudailyAdapter extends GroupedRecyclerViewAdapter implements Vie
 
     @Override
     public void onPageSelected(int position) {
-        Log.d(TAG, "Page Changed: " + position);
     }
 
     @Override

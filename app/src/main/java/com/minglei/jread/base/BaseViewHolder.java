@@ -36,18 +36,6 @@ public class BaseViewHolder<T> extends RecyclerView.ViewHolder {
         return (T) view;
     }
 
-    public void bindHolder(T t) {
-    }
-
-    public void bindHolder(T t, Object object) {
-    }
-
-    public void bindHolder(T t, Object obj0, Object obj1) {
-    }
-
-    public void unbindHolder() {
-    }
-
     //******** 提供对View、TextView、ImageView的常用设置方法 ******//
 
     public BaseViewHolder setText(int viewId, String text) {

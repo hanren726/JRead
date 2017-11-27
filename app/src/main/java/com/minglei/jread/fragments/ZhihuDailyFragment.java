@@ -26,7 +26,9 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
 public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView, GroupedRecyclerViewAdapter.OnChildClickListener {
 
@@ -90,6 +92,14 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
             public void onRefresh(RefreshLayout refreshlayout) {
                 mPresenter.getDailyNews();
                 mRefreshLayout.finishRefresh();
+            }
+        });
+
+        mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                mPresenter.getBeforeNews();
+                mRefreshLayout.finishLoadmore();
             }
         });
 
