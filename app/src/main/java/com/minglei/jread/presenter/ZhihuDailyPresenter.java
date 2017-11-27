@@ -2,23 +2,22 @@ package com.minglei.jread.presenter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.minglei.jread.activity.ZhihuDailyNewsWebActivity;
 import com.minglei.jread.beans.zhihu.StoriesBean;
 import com.minglei.jread.beans.zhihu.ZhihuLatestNews;
-import com.minglei.jread.fragments.adapter.ZhihuDailyListAdapter;
+import com.minglei.jread.fragments.adapter.ZhihudailyAdapter;
 import com.minglei.jread.fragments.interfaces.IZhihuDailyView;
 import com.minglei.jread.net.ApiFactory;
 import com.minglei.jread.net.ZhihuDailyApi;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
+
+import java.util.ArrayList;
 
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -36,7 +35,7 @@ public class ZhihuDailyPresenter{
     private Context mContext;
 
     private RecyclerView mRecyclerView;
-    private ZhihuDailyListAdapter mAdapter;
+    private ZhihudailyAdapter mAdapter;
     private CompositeSubscription mSubscriptions = new CompositeSubscription();
 
     public ZhihuDailyPresenter(Context context, IZhihuDailyView iZhihuDailyView) {
@@ -64,7 +63,9 @@ public class ZhihuDailyPresenter{
                     @Override
                     public void onNext(ZhihuLatestNews zhihuLatestNews) {
                         Log.i(TAG, "zhihuLatestNews size:" + (zhihuLatestNews != null ? zhihuLatestNews.getStories().size() : 0));
-                        mAdapter.setData(zhihuLatestNews);
+                        ArrayList<ZhihuLatestNews> allNews = new ArrayList<>();
+                        allNews.add(zhihuLatestNews);
+                        mAdapter.setData(allNews);
                         mRecyclerView.setAdapter(mAdapter);
                     }
                 });

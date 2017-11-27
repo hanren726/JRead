@@ -13,6 +13,7 @@ import com.minglei.jread.JApplication;
 import com.minglei.jread.R;
 import com.minglei.jread.fragments.interfaces.IZhihuDailyWebView;
 import com.minglei.jread.presenter.ZhihuDailyWebPresenter;
+import com.minglei.jread.utils.JLog;
 
 public class ZhihuDailyNewsWebActivity extends AppCompatActivity implements IZhihuDailyWebView {
 
@@ -64,7 +65,7 @@ public class ZhihuDailyNewsWebActivity extends AppCompatActivity implements IZhi
             return;
         }
         mId = intent.getIntExtra(BUNDLE_ID, 0);
-        Log.i(TAG, String.format("mId : [%d]" , mId));
+        JLog.i(TAG, "processIntent mId is [%d]", mId);
     }
 
     @Override

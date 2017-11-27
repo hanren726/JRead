@@ -1,12 +1,13 @@
 package com.minglei.jread.beans.zhihu;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by minglei on 2017/11/13.
  */
 
-public class StoriesBean {
+public class StoriesBean implements Serializable{
     /**
      * images : ["https://pic3.zhimg.com/v2-c3120669972f6a25f5470175a4bcf622.jpg"]
      * type : 0

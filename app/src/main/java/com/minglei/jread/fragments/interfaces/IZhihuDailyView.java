@@ -3,7 +3,7 @@ package com.minglei.jread.fragments.interfaces;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.minglei.jread.fragments.adapter.ZhihuDailyListAdapter;
+import com.minglei.jread.fragments.adapter.ZhihudailyAdapter;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 /**
@@ -13,7 +13,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 public interface IZhihuDailyView {
     RecyclerView getRecyclerView();
 
-    ZhihuDailyListAdapter getAdapter();
+    ZhihudailyAdapter getAdapter();
 
     RefreshLayout getRefreshLayout();
 

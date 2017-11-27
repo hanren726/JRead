@@ -6,18 +6,21 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.minglei.jread.R;
 import com.minglei.jread.base.BaseFragment;
-import com.minglei.jread.fragments.adapter.ZhihuDailyListAdapter;
+import com.minglei.jread.base.BaseViewHolder;
+import com.minglei.jread.base.GroupedRecyclerViewAdapter;
+import com.minglei.jread.fragments.adapter.ZhihudailyAdapter;
 import com.minglei.jread.fragments.interfaces.IZhihuDailyView;
 import com.minglei.jread.fragments.interfaces.ItemClickListener;
 import com.minglei.jread.presenter.ZhihuDailyPresenter;
+import com.minglei.jread.utils.JLog;
 import com.minglei.jread.utils.NetworkUtils;
-import com.minglei.jread.utils.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
@@ -25,13 +28,15 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView, ItemClickListener {
+public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView, GroupedRecyclerViewAdapter.OnChildClickListener {
+
+    private static final String TAG = ZhihuDailyFragment.class.getSimpleName();
 
     private ZhihuDailyPresenter mPresenter;
     private View mRootView;
     private View mErrorView;
     private RecyclerView mRecyclerView;
-    private ZhihuDailyListAdapter mAdapter;
+    private ZhihudailyAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
     private SmartRefreshLayout mRefreshLayout;
 
@@ -71,10 +76,10 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
 
         mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.recycler_zhihu_daily);
         mLayoutManager = new LinearLayoutManager(getContext());
-        mAdapter = new ZhihuDailyListAdapter(getActivity());
+        mAdapter = new ZhihudailyAdapter(getActivity());
+        mAdapter.setOnChildClickListener(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new SimplePaddingDecoration(getActivity()));
-        mAdapter.setOnItemClickListener(this);
 
         mRefreshLayout.setEnableAutoLoadmore(false);
         mRefreshLayout.setRefreshHeader(new ClassicsHeader(getActivity()));
@@ -99,7 +104,7 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
     }
 
     @Override
-    public ZhihuDailyListAdapter getAdapter() {
+    public ZhihudailyAdapter getAdapter() {
         return mAdapter;
     }
 
@@ -120,8 +125,9 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
     }
 
     @Override
-    public void onItemClick(View view, int postion) {
-        mPresenter.viewNews(mAdapter.getItem(postion));
+    public void onChildClick(GroupedRecyclerViewAdapter adapter, BaseViewHolder holder, int groupPosition, int childPosition) {
+        JLog.i(TAG, "onChildClick groupPosition : [%d],childPosition : [%d]", groupPosition, childPosition);
+        mPresenter.viewNews(mAdapter.getChildItem(groupPosition, childPosition));
     }
 
     private class SimplePaddingDecoration extends RecyclerView.ItemDecoration {

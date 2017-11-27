@@ -1,12 +1,13 @@
 package com.minglei.jread.beans.zhihu;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by minglei on 2017/11/13.
  */
 
-public class ZhihuDailyContentBean {
+public class ZhihuDailyContentBean implements Serializable{
 
     /**
      * body : <div class="main-wrap content-wrap">
