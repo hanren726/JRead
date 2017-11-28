@@ -1,6 +1,7 @@
 package com.minglei.jread.fragments.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
@@ -18,13 +19,16 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.minglei.jread.R;
+import com.minglei.jread.activity.ZhihuDailyNewsWebActivity;
 import com.minglei.jread.base.BaseViewHolder;
 import com.minglei.jread.base.GroupedRecyclerViewAdapter;
 import com.minglei.jread.beans.zhihu.StoriesBean;
 import com.minglei.jread.beans.zhihu.TopStoriesBean;
 import com.minglei.jread.beans.zhihu.ZhihuLatestNews;
 import com.minglei.jread.utils.DateUtil;
+import com.minglei.jread.utils.DimentionUtil;
 import com.minglei.jread.utils.JLog;
+import com.minglei.jread.utils.ScreenSizeUtil;
 import com.minglei.jread.utils.TypefaceUtil;
 
 import java.util.ArrayList;
@@ -149,7 +153,11 @@ public class ZhihudailyAdapter extends GroupedRecyclerViewAdapter implements Vie
             List<TopStoriesBean> topStoriesBeans = mZhihuLatestNews.get(groupPosition).getTop_stories();
             if (topStoriesBeans != null) {
                 Log.i(TAG, "topStory size :" + topStoriesBeans.size());
-                slider.setVisibility(View.VISIBLE);
+                container.setVisibility(View.VISIBLE);
+                RecyclerView.LayoutParams param = (RecyclerView.LayoutParams) container.getLayoutParams();
+                param.height = DimentionUtil.dp2px(200);
+                param.width = ScreenSizeUtil.getScreenSize().widthPixels;
+                container.setLayoutParams(param);
                 slider.removeAllSliders();
                 Subscription subscription = Observable.from(topStoriesBeans)
                         .subscribeOn(Schedulers.io())
@@ -254,6 +262,8 @@ public class ZhihudailyAdapter extends GroupedRecyclerViewAdapter implements Vie
     @Override
     public void onSliderClick(BaseSliderView slider) {
         int id = slider.getBundle().getInt(BUNDLE_ID);
-        //TODO 点击跳转至webview
+        Intent intent = ZhihuDailyNewsWebActivity.getStartIntent();
+        intent.putExtra(ZhihuDailyNewsWebActivity.BUNDLE_ID, id);
+        mContext.startActivity(intent);
     }
 }
