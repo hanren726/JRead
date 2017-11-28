@@ -2,6 +2,7 @@ package com.minglei.jread.fragments.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -143,6 +144,7 @@ public class ZhihudailyAdapter extends GroupedRecyclerViewAdapter implements Vie
     public void onBindChildViewHolder(final BaseViewHolder holder, int groupPosition, int childPosition) {
         JLog.i(TAG, "onBindChildViewHolder groupPosition:[%d], childPosition:[%d]", groupPosition, childPosition);
         if (getChildViewType(groupPosition, childPosition) == TYPE_TOP_STORY) {
+            final View container = holder.get(R.id.top_story_container);
             final SliderLayout slider = (SliderLayout) holder.get(R.id.slider);
             List<TopStoriesBean> topStoriesBeans = mZhihuLatestNews.get(groupPosition).getTop_stories();
             if (topStoriesBeans != null) {
@@ -187,8 +189,11 @@ public class ZhihudailyAdapter extends GroupedRecyclerViewAdapter implements Vie
                         });
                 mSubscriptions.add(subscription);
             } else {
-                //TODO item的内容为gone的时候，但是头部和尾部的divide还在，会多出一些空白，待处理
-                slider.setVisibility(View.GONE);
+                RecyclerView.LayoutParams param = (RecyclerView.LayoutParams) container.getLayoutParams();
+                container.setVisibility(View.GONE);
+                param.height = 0;
+                param.width = 0;
+                container.setLayoutParams(param);
             }
         } else {
             TextView title = (TextView) holder.get(R.id.story_title);
