@@ -2,6 +2,8 @@ package com.minglei.jread.fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.minglei.jread.R;
 import com.minglei.jread.base.BaseFragment;
@@ -17,8 +20,10 @@ import com.minglei.jread.base.GroupedRecyclerViewAdapter;
 import com.minglei.jread.fragments.adapter.ZhihudailyAdapter;
 import com.minglei.jread.fragments.interfaces.IZhihuDailyView;
 import com.minglei.jread.presenter.ZhihuDailyPresenter;
+import com.minglei.jread.utils.DateUtil;
 import com.minglei.jread.utils.JLog;
 import com.minglei.jread.utils.NetworkUtils;
+import com.minglei.jread.utils.ToastUtil;
 import com.minglei.jread.widget.ChooseDateView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -27,14 +32,17 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.wdullaer.materialdatetimepicker.date.DatePickerController;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
-import java.util.concurrent.TimeUnit;
+import java.util.Calendar;
+import java.util.Date;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 
-public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView, GroupedRecyclerViewAdapter.OnChildClickListener {
+public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
+        GroupedRecyclerViewAdapter.OnChildClickListener,
+        View.OnClickListener,
+        DatePickerDialog.OnDateSetListener{
 
     private static final String TAG = ZhihuDailyFragment.class.getSimpleName();
 
@@ -46,11 +54,10 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
     private ZhihudailyAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
     private SmartRefreshLayout mRefreshLayout;
+    private DatePickerDialog dpd;
 
     public static ZhihuDailyFragment newInstance() {
-
         Bundle args = new Bundle();
-
         ZhihuDailyFragment fragment = new ZhihuDailyFragment();
         fragment.setArguments(args);
         return fragment;
@@ -65,12 +72,19 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
     @Override
     public void onResume() {
         super.onResume();
+        checkNetwork();
+    }
+
+    private void checkNetwork() {
         if (!NetworkUtils.isNetworkAvailable()) {
             mErrorView.setVisibility(View.VISIBLE);
             mRefreshLayout.setVisibility(View.GONE);
+            mChooseDateView.hideView();
         } else {
             mErrorView.setVisibility(View.GONE);
             mRefreshLayout.setVisibility(View.VISIBLE);
+            mChooseDateView.showView();
+            mPresenter.getDailyNews();
         }
     }
 
@@ -79,10 +93,15 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_zhihu_daily, container, false);
         mErrorView = mRootView.findViewById(R.id.error_layout);
+        TextView retry = (TextView) mErrorView.findViewById(R.id.error_retry);
+        TextView setting = (TextView) mErrorView.findViewById(R.id.error_network_setting);
+        retry.setOnClickListener(this);
+        setting.setOnClickListener(this);
         mRefreshLayout = (SmartRefreshLayout) mRootView.findViewById(R.id.refreshLayout);
-
         mChooseDateView = new ChooseDateView(getActivity());
         mChooseDateView.addView(getActivity());
+        mChooseDateView.setId(R.id.zhihu_choose_date);
+        mChooseDateView.setOnClickListener(this);
 
         mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.recycler_zhihu_daily);
         mLayoutManager = new LinearLayoutManager(getContext());
@@ -90,7 +109,6 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
         mAdapter.setOnChildClickListener(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new SimplePaddingDecoration(getActivity()));
-        //TODO 滑动时chooseDateView隐藏
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -120,7 +138,6 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
         mRefreshLayout.setEnableAutoLoadmore(false);
         mRefreshLayout.setRefreshHeader(new ClassicsHeader(getActivity()));
         mRefreshLayout.setRefreshFooter(new ClassicsFooter(getActivity()).setSpinnerStyle(SpinnerStyle.Scale));
-
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -128,7 +145,6 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
                 mRefreshLayout.finishRefresh();
             }
         });
-
         mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
@@ -136,9 +152,6 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
                 mRefreshLayout.finishLoadmore();
             }
         });
-
-        mPresenter.getDailyNews();
-
         return mRootView;
     }
 
@@ -172,6 +185,73 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
     public void onChildClick(GroupedRecyclerViewAdapter adapter, BaseViewHolder holder, int groupPosition, int childPosition) {
         JLog.i(TAG, "onChildClick groupPosition : [%d],childPosition : [%d]", groupPosition, childPosition);
         mPresenter.viewNews(mAdapter.getChildItem(groupPosition, childPosition));
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.zhihu_choose_date:
+                showChooseDateDialog();
+                break;
+            case R.id.error_retry:
+                checkNetwork();
+                break;
+            case R.id.error_network_setting:
+                Intent intent = new Intent(android.provider.Settings.ACTION_SETTINGS);
+                startActivity(intent);
+                break;
+        }
+
+    }
+
+    private void showChooseDateDialog() {
+        Calendar now = Calendar.getInstance();
+        if (dpd == null) {
+            dpd = DatePickerDialog.newInstance(
+                    ZhihuDailyFragment.this,
+                    now.get(Calendar.YEAR),
+                    now.get(Calendar.MONTH),
+                    now.get(Calendar.DAY_OF_MONTH)
+            );
+        } else {
+            dpd.initialize(
+                    ZhihuDailyFragment.this,
+                    now.get(Calendar.YEAR),
+                    now.get(Calendar.MONTH),
+                    now.get(Calendar.DAY_OF_MONTH)
+            );
+        }
+        dpd.vibrate(true);
+        dpd.dismissOnPause(true);
+        dpd.setAccentColor(getResources().getColor(R.color.light_blue_500));
+        dpd.setTitle(getResources().getString(R.string.zhihu_daily_choose_date_title));
+        dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        //TODO fix me 30号和31号的处理
+        String date = DateUtil.createFormatDate(year, monthOfYear, dayOfMonth);
+        Calendar now = Calendar.getInstance();
+        int thisYear = now.get(Calendar.YEAR);
+        int thisMonth = now.get(Calendar.MONTH);
+        int thisDay = now.get(Calendar.DAY_OF_MONTH);
+        String today = DateUtil.createFormatDate(thisYear, thisMonth, thisDay);
+        if (DateUtil.compareDate(date, today)) {
+            ToastUtil.forceToShowToastInCenter(getResources().getString(R.string.zhihu_daily_choose_date_hint));
+        } else {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append(year);
+            int realMonth = monthOfYear + 1;
+            stringBuffer.append(realMonth);
+            if (dayOfMonth + 1 < 10) {
+                stringBuffer.append("0");
+                stringBuffer.append(dayOfMonth + 1);
+            } else {
+                stringBuffer.append(dayOfMonth + 1);
+            }
+            mPresenter.getSelectedDayNews(stringBuffer.toString());
+        }
     }
 
     private class SimplePaddingDecoration extends RecyclerView.ItemDecoration {

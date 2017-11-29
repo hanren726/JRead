@@ -33,7 +33,7 @@ public class ToastUtil {
 
     public static void forceToShowToastInCenter(String msg) {
         if (sToast == null) {
-            sToast = Toast.makeText(JApplication.getAppContext(), "", Toast.LENGTH_SHORT);
+            sToast = Toast.makeText(JApplication.getAppContext(), "", Toast.LENGTH_LONG);
         }
         sToast.setText(msg);
         sToast.setGravity(Gravity.CENTER, 0, 0);

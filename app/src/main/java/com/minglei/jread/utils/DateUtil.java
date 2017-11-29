@@ -2,6 +2,8 @@ package com.minglei.jread.utils;
 
 import android.text.format.DateFormat;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -16,6 +18,7 @@ public class DateUtil {
     /**
      * 输入20171127
      * 输出2017年11月27日 星期一
+     *
      * @param date
      * @return
      */
@@ -30,8 +33,7 @@ public class DateUtil {
         c.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day));
         String week = "";
         int weekIndex = c.get(Calendar.DAY_OF_WEEK);
-        switch (weekIndex)
-        {
+        switch (weekIndex) {
             case 1:
                 week = "星期日";
                 break;
@@ -67,6 +69,35 @@ public class DateUtil {
         return stringBuffer.toString();
     }
 
+    public static String createFormatDate(int year, int month, int day) {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(year);
+        stringBuffer.append("-");
+        stringBuffer.append(month);
+        stringBuffer.append("-");
+        stringBuffer.append(day);
+        return stringBuffer.toString();
+    }
+
+    public static boolean compareDate(String date1, String date2) {
+        boolean isBigger = false;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dt1 = null;
+        Date dt2 = null;
+        try {
+            dt1 = sdf.parse(date1);
+            dt2 = sdf.parse(date2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (dt1.getTime() > dt2.getTime()) {
+            isBigger = true;
+        } else if (dt1.getTime() < dt2.getTime()) {
+            isBigger = false;
+        }
+        return isBigger;
+    }
+
     public static String[] WEEK = {
             "星期日",
             "星期一",
@@ -75,5 +106,5 @@ public class DateUtil {
             "星期四",
             "星期五",
             "星期六"
-};
+    };
 }

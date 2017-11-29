@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="zhihu_daily_choose_date_title">想看哪一天的日报呢～</string>
+    <string name="zhihu_daily_choose_date_hint">无法查看未来哦～</string>
+    <string name="zhihu_tab_top_title_1">知乎日报</string>
+    <string name="zhihu_tab_top_title_2">知乎专栏</string>
+</resources>

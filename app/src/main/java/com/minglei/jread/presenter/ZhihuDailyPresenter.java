@@ -69,8 +69,10 @@ public class ZhihuDailyPresenter{
                     public void onNext(ZhihuLatestNews zhihuLatestNews) {
                         JLog.i(TAG, "zhihuLatestNews :[%s], time : [%s]", zhihuLatestNews,
                                 zhihuLatestNews.getDate());
+                        allNews.clear();
                         allNews.add(zhihuLatestNews);
                         mAdapter.setData(allNews);
+                        mAdapter.mShowSelectedDay = false;
                         mRecyclerView.setAdapter(mAdapter);
                         mLatestTime = zhihuLatestNews.getDate();
                     }
@@ -101,6 +103,38 @@ public class ZhihuDailyPresenter{
                                 zhihuLatestNews.getDate());
                         allNews.add(zhihuLatestNews);
                         mAdapter.updateData(allNews);
+                        mAdapter.notifyDataSetChanged();
+                        mLatestTime = zhihuLatestNews.getDate();
+                    }
+                });
+        mSubscriptions.add(subscription);
+    }
+
+    public void getSelectedDayNews(String day) {
+        mRecyclerView = iZhihuDailyView.getRecyclerView();
+        mAdapter = iZhihuDailyView.getAdapter();
+        Subscription subscription = mZhihuApi.getBeforetNews(day)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ZhihuLatestNews>() {
+                    @Override
+                    public void onCompleted() {
+                        JLog.i(TAG, "getBeforeNews onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        JLog.e(TAG, "getBeforeNews onError : [%s]", e);
+                    }
+
+                    @Override
+                    public void onNext(ZhihuLatestNews zhihuLatestNews) {
+                        JLog.i(TAG, "zhihuLatestNews :[%s], time : [%s]", zhihuLatestNews,
+                                zhihuLatestNews.getDate());
+                        allNews.clear();
+                        allNews.add(zhihuLatestNews);
+                        mAdapter.updateData(allNews);
+                        mAdapter.mShowSelectedDay = true;
                         mAdapter.notifyDataSetChanged();
                         mLatestTime = zhihuLatestNews.getDate();
                     }

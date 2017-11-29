@@ -58,6 +58,8 @@ public class ZhihudailyAdapter extends GroupedRecyclerViewAdapter implements Vie
     private static final String BUNDLE_TITLE = "title";
     private static final String BUNDLE_URL = "image";
 
+    public boolean mShowSelectedDay = false;
+
     private CompositeSubscription mSubscriptions = new CompositeSubscription();
 
     public void setData(ArrayList<ZhihuLatestNews> zhihuLatestNews) {
@@ -133,7 +135,11 @@ public class ZhihudailyAdapter extends GroupedRecyclerViewAdapter implements Vie
     public void onBindHeaderViewHolder(BaseViewHolder holder, int groupPosition) {
         String date = mZhihuLatestNews.get(groupPosition).getDate();
         if (groupPosition == 0) {
-            holder.setText(R.id.tv_header, "今天有趣的");
+            if (mShowSelectedDay) {
+                holder.setText(R.id.tv_header, DateUtil.getFormatDate(date));
+            } else {
+                holder.setText(R.id.tv_header, "今天有趣的");
+            }
         } else {
             holder.setText(R.id.tv_header, DateUtil.getFormatDate(date));
         }

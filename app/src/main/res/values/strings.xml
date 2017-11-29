@@ -4,10 +4,14 @@
     <string name="guoke_fragment">guoke fragment</string>
     <string name="qiubai_fragment">qiubai fragment</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <item name="type_header" type="integer"/>
     <item name="type_footer" type="integer"/>
     <item name="type_child" type="integer"/>
+
+    <string name="zhihu_daily_choose_date_title">想看哪一天的日报呢～</string>
+    <string name="zhihu_daily_choose_date_hint">无法查看未来哦～</string>
+    <string name="zhihu_tab_top_title_1">知乎日报</string>
+    <string name="zhihu_tab_top_title_2">知乎专栏</string>
 </resources>
