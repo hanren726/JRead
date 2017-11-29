@@ -6,7 +6,6 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +16,10 @@ import com.minglei.jread.base.BaseViewHolder;
 import com.minglei.jread.base.GroupedRecyclerViewAdapter;
 import com.minglei.jread.fragments.adapter.ZhihudailyAdapter;
 import com.minglei.jread.fragments.interfaces.IZhihuDailyView;
-import com.minglei.jread.fragments.interfaces.ItemClickListener;
 import com.minglei.jread.presenter.ZhihuDailyPresenter;
 import com.minglei.jread.utils.JLog;
 import com.minglei.jread.utils.NetworkUtils;
+import com.minglei.jread.widget.ChooseDateView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
@@ -28,7 +27,12 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
+
+import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView, GroupedRecyclerViewAdapter.OnChildClickListener {
 
@@ -37,6 +41,7 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
     private ZhihuDailyPresenter mPresenter;
     private View mRootView;
     private View mErrorView;
+    private ChooseDateView mChooseDateView;
     private RecyclerView mRecyclerView;
     private ZhihudailyAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
@@ -76,12 +81,29 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
         mErrorView = mRootView.findViewById(R.id.error_layout);
         mRefreshLayout = (SmartRefreshLayout) mRootView.findViewById(R.id.refreshLayout);
 
+        mChooseDateView = new ChooseDateView(getActivity());
+        mChooseDateView.addView(getActivity());
+
         mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.recycler_zhihu_daily);
         mLayoutManager = new LinearLayoutManager(getContext());
         mAdapter = new ZhihudailyAdapter(getActivity());
         mAdapter.setOnChildClickListener(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new SimplePaddingDecoration(getActivity()));
+        //TODO 滑动时chooseDateView隐藏
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                JLog.i(TAG, "onScrollStateChanged newState : [%d]", newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                JLog.i(TAG, "onScrolled");
+            }
+        });
 
         mRefreshLayout.setEnableAutoLoadmore(false);
         mRefreshLayout.setRefreshHeader(new ClassicsHeader(getActivity()));
