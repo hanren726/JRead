@@ -58,9 +58,6 @@ public class ChooseDateView extends FrameLayout {
     }
 
     public void hideView() {
-        ObjectAnimator.ofFloat(this, "alpha", 1.0f, 0.0f)
-                .setDuration(500)
-                .start();
-//        setVisibility(INVISIBLE);
+        setVisibility(INVISIBLE);
     }
 }

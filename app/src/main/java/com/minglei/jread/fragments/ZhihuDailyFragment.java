@@ -96,12 +96,24 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 JLog.i(TAG, "onScrollStateChanged newState : [%d]", newState);
+                //静止,没有滚动 SCROLL_STATE_IDLE = 0;
+                //正在被外部拖拽,一般为用户正在用手指滚动 SCROLL_STATE_DRAGGING = 1;
+                //自动滚动开始 SCROLL_STATE_SETTLING = 2;
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    mChooseDateView.showView();
+                }
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                JLog.i(TAG, "onScrolled");
+                JLog.i(TAG, "onScrolled dx : [%d], dy : [%d]", dx, dy);
+                //dx : 水平滚动距离 dy : 垂直滚动距离
+                if (dy == 0) {
+                    mChooseDateView.showView();
+                } else {
+                    mChooseDateView.hideView();
+                }
             }
         });
 
