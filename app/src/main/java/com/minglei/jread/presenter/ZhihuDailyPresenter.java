@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import com.minglei.jread.activity.ZhihuDailyNewsWebActivity;
 import com.minglei.jread.beans.zhihu.StoriesBean;
@@ -63,12 +64,16 @@ public class ZhihuDailyPresenter{
                     @Override
                     public void onError(Throwable e) {
                         JLog.e(TAG, "getDailyNews onError : [%s]", e);
+                        iZhihuDailyView.getRefreshLayout().setVisibility(View.GONE);
+                        iZhihuDailyView.getErrorView().setVisibility(View.VISIBLE);
                     }
 
                     @Override
                     public void onNext(ZhihuLatestNews zhihuLatestNews) {
                         JLog.i(TAG, "zhihuLatestNews :[%s], time : [%s]", zhihuLatestNews,
                                 zhihuLatestNews.getDate());
+                        iZhihuDailyView.getRefreshLayout().setVisibility(View.VISIBLE);
+                        iZhihuDailyView.getErrorView().setVisibility(View.GONE);
                         allNews.clear();
                         allNews.add(zhihuLatestNews);
                         mAdapter.setData(allNews);
@@ -95,12 +100,16 @@ public class ZhihuDailyPresenter{
                     @Override
                     public void onError(Throwable e) {
                         JLog.e(TAG, "getBeforeNews onError : [%s]", e);
+                        iZhihuDailyView.getRefreshLayout().setVisibility(View.GONE);
+                        iZhihuDailyView.getErrorView().setVisibility(View.VISIBLE);
                     }
 
                     @Override
                     public void onNext(ZhihuLatestNews zhihuLatestNews) {
                         JLog.i(TAG, "zhihuLatestNews :[%s], time : [%s]", zhihuLatestNews,
                                 zhihuLatestNews.getDate());
+                        iZhihuDailyView.getRefreshLayout().setVisibility(View.VISIBLE);
+                        iZhihuDailyView.getErrorView().setVisibility(View.GONE);
                         allNews.add(zhihuLatestNews);
                         mAdapter.updateData(allNews);
                         mAdapter.notifyDataSetChanged();

@@ -3,7 +3,6 @@ package com.minglei.jread.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,11 +31,9 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.wdullaer.materialdatetimepicker.date.DatePickerController;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.Calendar;
-import java.util.Date;
 
 
 public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
@@ -166,13 +163,18 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
     }
 
     @Override
-    public RefreshLayout getRefreshLayout() {
+    public SmartRefreshLayout getRefreshLayout() {
         return mRefreshLayout;
     }
 
     @Override
     public LinearLayoutManager getLayoutManager() {
         return mLayoutManager;
+    }
+
+    @Override
+    public View getErrorView() {
+        return mErrorView;
     }
 
     @Override
@@ -230,27 +232,20 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        //TODO fix me 30号和31号的处理
-        String date = DateUtil.createFormatDate(year, monthOfYear, dayOfMonth);
+        JLog.i(TAG, "onDateSet year is [%d], monthOfYear is [%d], dayOfMonth is [%d]", year, monthOfYear, dayOfMonth);
+        int realMonth = monthOfYear + 1;
+        String selectedDate = DateUtil.createFormatDate(year, realMonth, dayOfMonth);
         Calendar now = Calendar.getInstance();
         int thisYear = now.get(Calendar.YEAR);
-        int thisMonth = now.get(Calendar.MONTH);
+        int thisMonth = now.get(Calendar.MONTH) + 1;
         int thisDay = now.get(Calendar.DAY_OF_MONTH);
         String today = DateUtil.createFormatDate(thisYear, thisMonth, thisDay);
-        if (DateUtil.compareDate(date, today)) {
+        if (DateUtil.compareDate(selectedDate, today)) {
             ToastUtil.forceToShowToastInCenter(getResources().getString(R.string.zhihu_daily_choose_date_hint));
         } else {
-            StringBuffer stringBuffer = new StringBuffer();
-            stringBuffer.append(year);
-            int realMonth = monthOfYear + 1;
-            stringBuffer.append(realMonth);
-            if (dayOfMonth + 1 < 10) {
-                stringBuffer.append("0");
-                stringBuffer.append(dayOfMonth + 1);
-            } else {
-                stringBuffer.append(dayOfMonth + 1);
-            }
-            mPresenter.getSelectedDayNews(stringBuffer.toString());
+            String chooseDay = DateUtil.getTomorrowForOneDay(selectedDate);
+            JLog.i(TAG, "onDateSet date is [%s]", chooseDay);
+            mPresenter.getSelectedDayNews(chooseDay);
         }
     }
 

@@ -2,9 +2,10 @@ package com.minglei.jread.fragments.interfaces;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.minglei.jread.fragments.adapter.ZhihudailyAdapter;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 /**
  * Created by minglei on 2017/11/13.
@@ -15,7 +16,9 @@ public interface IZhihuDailyView {
 
     ZhihudailyAdapter getAdapter();
 
-    RefreshLayout getRefreshLayout();
+    SmartRefreshLayout getRefreshLayout();
 
     LinearLayoutManager getLayoutManager();
+
+    View getErrorView();
 }

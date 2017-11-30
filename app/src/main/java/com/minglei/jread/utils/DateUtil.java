@@ -3,6 +3,7 @@ package com.minglei.jread.utils;
 import android.text.format.DateFormat;
 
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -69,19 +70,42 @@ public class DateUtil {
         return stringBuffer.toString();
     }
 
+    public static String getRealDate(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        Date formatDate = sdf.parse(date, new ParsePosition(0));
+        int year = formatDate.getYear();
+        int month = formatDate.getMonth() + 1;
+        int day = formatDate.getDay();
+        return createFormatDate(year, month, day);
+    }
+
     public static String createFormatDate(int year, int month, int day) {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append(year);
-        stringBuffer.append("-");
+        if (month < 10) {
+            stringBuffer.append("0");
+        }
         stringBuffer.append(month);
-        stringBuffer.append("-");
+        if (day < 10) {
+            stringBuffer.append("0");
+        }
         stringBuffer.append(day);
         return stringBuffer.toString();
     }
 
+    public static String getTomorrowForOneDay(String day) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        Date date = sdf.parse(day, new ParsePosition(0));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, 1);
+        String res = sdf.format(calendar.getTime());
+        return res;
+    }
+
     public static boolean compareDate(String date1, String date2) {
         boolean isBigger = false;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         Date dt1 = null;
         Date dt2 = null;
         try {
