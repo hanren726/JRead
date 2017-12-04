@@ -93,5 +93,6 @@ public class ZhuanlanPeopleListFragment extends BaseFragment {
 
     private Observable getUserFromMemory(final String id) {
 //        return Observable.just(DataCenter.getInstance().queryById(id, User.class));
+        return null;
     }
 }

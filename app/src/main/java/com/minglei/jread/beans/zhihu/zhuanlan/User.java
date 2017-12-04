@@ -5,14 +5,10 @@ import android.os.Parcelable;
 
 import java.util.List;
 
-import io.objectbox.annotation.Entity;
-import io.objectbox.annotation.Id;
-import io.objectbox.annotation.Transient;
 
 /**
  * Created by minglei on 2017/12/1.
  */
-@Entity
 public class User implements Parcelable{
 
     /**
@@ -43,8 +39,6 @@ public class User implements Parcelable{
      * postsCount : 21
      * canPost : false
      */
-    @Id
-    private long id;
     private int followersCount;
     private CreatorBean creator;
     private String activateState;
