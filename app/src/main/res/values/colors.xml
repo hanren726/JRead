@@ -369,4 +369,6 @@
     <color name="white_transparency_950">#F3ffffff</color>
     <color name="white">#FFffffff</color>
 
+    <color name="zhuanlan_people_list_bg">#f5f5f5</color>
+
 </resources>

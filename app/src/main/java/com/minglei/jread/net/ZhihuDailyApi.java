@@ -1,7 +1,7 @@
 package com.minglei.jread.net;
 
-import com.minglei.jread.beans.zhihu.ZhihuDailyContentBean;
-import com.minglei.jread.beans.zhihu.ZhihuLatestNews;
+import com.minglei.jread.beans.zhihu.zhihudaily.ZhihuDailyContentBean;
+import com.minglei.jread.beans.zhihu.zhihudaily.ZhihuLatestNews;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;

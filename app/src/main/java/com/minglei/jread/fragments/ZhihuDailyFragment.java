@@ -67,6 +67,19 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (mChooseDateView == null) {
+            return;
+        }
+        if (isVisibleToUser) {
+            mChooseDateView.showView();
+        } else {
+            mChooseDateView.hideView();
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         checkNetwork();
@@ -180,6 +193,7 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
     @Override
     public void onDestroy() {
         super.onDestroy();
+        JLog.i(TAG, "onDestroy");
         mPresenter.onUnInit();
     }
 

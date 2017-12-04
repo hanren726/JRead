@@ -8,13 +8,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.minglei.jread.beans.zhihu.ZhihuDailyContentBean;
+import com.minglei.jread.beans.zhihu.zhihudaily.ZhihuDailyContentBean;
 import com.minglei.jread.fragments.interfaces.IZhihuDailyWebView;
 import com.minglei.jread.net.ApiFactory;
 import com.minglei.jread.net.ZhihuDailyApi;
 import com.minglei.jread.presenter.interfaces.IZhihuDailyWebPresenter;
 
-import okhttp3.TlsVersion;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;

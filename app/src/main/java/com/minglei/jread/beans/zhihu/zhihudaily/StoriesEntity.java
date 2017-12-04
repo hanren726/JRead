@@ -1,7 +1,6 @@
-package com.minglei.jread.beans.zhihu;
+package com.minglei.jread.beans.zhihu.zhihudaily;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

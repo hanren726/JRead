@@ -7,8 +7,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.minglei.jread.activity.ZhihuDailyNewsWebActivity;
-import com.minglei.jread.beans.zhihu.StoriesBean;
-import com.minglei.jread.beans.zhihu.ZhihuLatestNews;
+import com.minglei.jread.beans.zhihu.zhihudaily.StoriesBean;
+import com.minglei.jread.beans.zhihu.zhihudaily.ZhihuLatestNews;
 import com.minglei.jread.fragments.adapter.ZhihudailyAdapter;
 import com.minglei.jread.fragments.interfaces.IZhihuDailyView;
 import com.minglei.jread.net.ApiFactory;

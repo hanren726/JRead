@@ -11,6 +11,7 @@ public class ApiFactory {
     private static ZhihuDailyApi zhihuDailyApi = null;
     private static QiuBaiApi qiuBaiApi = null;
     private static GanHuoApi ganHuoApi = null;
+    private static ZhihuZhuanlanApi zhihuZhuanlanApi = null;
 
     public static ZhihuDailyApi getZhihuDailyApi() {
         synchronized (monitor) {
@@ -18,6 +19,15 @@ public class ApiFactory {
                 zhihuDailyApi = RetrofitHelper.getInstance().getService(ZhihuDailyApi.class);
             }
             return zhihuDailyApi;
+        }
+    }
+
+    public static ZhihuZhuanlanApi getZhihuZhuanlanApi() {
+        synchronized (monitor) {
+            if (zhihuZhuanlanApi == null) {
+                zhihuZhuanlanApi = RetrofitHelper.getInstance().getService(ZhihuZhuanlanApi.class);
+            }
+            return zhihuZhuanlanApi;
         }
     }
 
