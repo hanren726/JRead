@@ -10,6 +10,8 @@ import com.minglei.jread.R;
 import com.minglei.jread.base.BaseViewHolder;
 import com.minglei.jread.base.HolderBase;
 import com.minglei.jread.beans.zhihu.zhuanlan.User;
+import com.minglei.jread.beans.zhihu.zhuanlan.UserEntity;
+import com.minglei.jread.utils.JLog;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -17,7 +19,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by minglei on 2017/12/1.
  */
 
-public class PeopleViewHolder extends HolderBase<User>{
+public class PeopleViewHolder extends HolderBase<UserEntity>{
+
+    public static final String TAG = PeopleViewHolder.class.getSimpleName();
 
     private final CircleImageView mPhotoView;
     private final TextView mName;
@@ -25,6 +29,11 @@ public class PeopleViewHolder extends HolderBase<User>{
     private final TextView mPost;
     private final TextView mDescription;
     private Context mContext;
+
+    public static final String TEMPLATE_ID = "{id}";
+    public static final String TEMPLATE_SIZE = "{size}";
+    public static final String PIC_SIZE_XL = "xl";
+    public static final String PIC_SIZE_XS = "xs";
 
     public PeopleViewHolder(View itemView) {
         super(itemView);
@@ -37,15 +46,21 @@ public class PeopleViewHolder extends HolderBase<User>{
     }
 
     @Override
-    public void bindHolder(User user) {
+    public void bindHolder(UserEntity user) {
         super.bindHolder(user);
+        JLog.i(TAG, "bindHolder user is [%s]", user);
         Glide.with(mContext)
-                .load(user.getAvatar().getTemplate())
+                .load(getAuthorAvatarUrl(user.getAvatarTemplate(), user.getAvatarId(), PIC_SIZE_XL))
                 .crossFade()
                 .into(mPhotoView);
-        mName.setText(user.getName());
-        mFollow.setText(String.format(mContext.getResources().getString(R.string.zhihu_zhuanlan_peoplelist_follow), user.getFollowersCount()));
-        mPost.setText(String.format(mContext.getResources().getString(R.string.zhihu_zhuanlan_peoplelist_post), user.getPostsCount()));
+        mName.setText(user.getZhuanlanName());
+        mFollow.setText(String.format(mContext.getResources().getString(R.string.zhihu_zhuanlan_peoplelist_follow), user.getFollowerCount()));
+        mPost.setText(String.format(mContext.getResources().getString(R.string.zhihu_zhuanlan_peoplelist_post), user.getPostCount()));
         mDescription.setText(user.getDescription());
+    }
+
+    private static String getAuthorAvatarUrl(String origin, String userId, String size) {
+        origin = origin.replace(TEMPLATE_ID, userId);
+        return origin.replace(TEMPLATE_SIZE, size);
     }
 }

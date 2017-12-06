@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'io.objectbox'
 android {
     compileSdkVersion 25
     defaultConfig {
@@ -47,5 +47,4 @@ dependencies {
         exclude group: 'com.android.support'
     }
     compile 'de.hdodenhof:circleimageview:2.2.0'
-    compile 'org.greenrobot:greendao:2.2.0'
 }

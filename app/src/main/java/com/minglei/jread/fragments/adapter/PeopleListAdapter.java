@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.minglei.jread.R;
 import com.minglei.jread.base.HolderBase;
 import com.minglei.jread.beans.zhihu.zhuanlan.User;
+import com.minglei.jread.beans.zhihu.zhuanlan.UserEntity;
 import com.minglei.jread.utils.JLog;
 
 import java.util.ArrayList;
@@ -21,24 +22,24 @@ public class PeopleListAdapter extends RecyclerView.Adapter<HolderBase> {
 
     private static final String TAG = PeopleListAdapter.class.getSimpleName();
 
-    private List<User> mUsers;
+    private List<UserEntity> mUsers;
 
     public PeopleListAdapter() {
         mUsers = new ArrayList<>();
     }
 
-    public void add(@NonNull User user) {
-        int index = mUsers.indexOf(user);
-        JLog.i(TAG, "add : user=[%s], index=[%d]", user, index);
-        if (index >= 0) {
-            mUsers.set(index, user);
-        } else {
-            mUsers.add(user);
-            notifyItemInserted(getItemCount() == 0 ? 0 : getItemCount() - 1);
-        }
+    public void setData(@NonNull List<UserEntity> list) {
+        JLog.i(TAG, "setData, list size is [%d]", list.size());
+        mUsers = list;
+        notifyDataSetChanged();
     }
 
-    public void update(@NonNull User user) {
+    public void add(@NonNull UserEntity user) {
+        mUsers.add(user);
+        notifyItemInserted(mUsers.size() - 1);
+    }
+
+    public void update(@NonNull UserEntity user) {
         int index = mUsers.indexOf(user);
         JLog.i(TAG, "add : user=[%s], index=[%d]", user, index);
         if (index >= 0) {
@@ -53,12 +54,11 @@ public class PeopleListAdapter extends RecyclerView.Adapter<HolderBase> {
 
     @Override
     public void onBindViewHolder(HolderBase holder, int position) {
-        if (holder instanceof PeopleViewHolder) {
-            holder.bindHolder(getItem(position));
-        }
+        JLog.i(TAG, "onBindViewHolder getItem(position) : [%s]", getItem(position));
+        holder.bindHolder(getItem(position));
     }
 
-    public User getItem(int position) {
+    public UserEntity getItem(int position) {
         return position < mUsers.size() ? mUsers.get(position) : null;
     }
 

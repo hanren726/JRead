@@ -12,10 +12,15 @@ import android.view.ViewGroup;
 import com.minglei.jread.R;
 import com.minglei.jread.base.BaseFragment;
 import com.minglei.jread.beans.zhihu.zhuanlan.User;
+import com.minglei.jread.beans.zhihu.zhuanlan.UserEntity;
 import com.minglei.jread.fragments.adapter.PeopleListAdapter;
 import com.minglei.jread.net.ApiFactory;
+import com.minglei.jread.utils.DataCenter;
+import com.minglei.jread.utils.DateUtil;
 import com.minglei.jread.utils.JLog;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import rx.Observable;
@@ -32,10 +37,7 @@ public class ZhuanlanPeopleListFragment extends BaseFragment {
 
     private static final String TAG = ZhuanlanPeopleListFragment.class.getSimpleName();
 
-    private RecyclerView mRecyclerView;
     private PeopleListAdapter mAdapter;
-
-    private Map<String, User> map;
 
     public static ZhuanlanPeopleListFragment newInstance() {
         ZhuanlanPeopleListFragment fragment = new ZhuanlanPeopleListFragment();
@@ -47,22 +49,27 @@ public class ZhuanlanPeopleListFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         JLog.i(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.zhuanlan_people_list, container, false);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.peoplelist_recycler_view);
+        RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.peoplelist_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new PeopleListAdapter();
         mRecyclerView.setAdapter(mAdapter);
-        map = new ArrayMap<>();
+        DataCenter.instance().init(getActivity());
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         getUserIdList();
-        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     private void getUserIdList() {
-
         Observable.from(getActivity().getResources().getStringArray(R.array.people_ids))
                 .flatMap(new Func1<String, Observable<User>>() {
                     @Override
                     public Observable<User> call(String s) {
-                        return Observable.concat(getUserFromMemory(s), getUserFromNetwork(s)).first();
+//                        return Observable.concat(getUserFromMemory(s), getUserFromNetwork(s)).first();
+                        return getUserFromNetwork(s);
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -82,7 +89,9 @@ public class ZhuanlanPeopleListFragment extends BaseFragment {
                     @Override
                     public void onNext(User user) {
                         JLog.i(TAG, "getUserIdList user : [%s]", user);
-                        mAdapter.add(user);
+                        UserEntity userEntity = user.toUserEntity();
+                        JLog.i(TAG, "getUserIdList userEntity : [%s]", userEntity);
+                        mAdapter.add(userEntity);
                     }
                 });
     }
@@ -91,8 +100,7 @@ public class ZhuanlanPeopleListFragment extends BaseFragment {
         return ApiFactory.getZhihuZhuanlanApi().getUser(id);
     }
 
-    private Observable getUserFromMemory(final String id) {
-//        return Observable.just(DataCenter.getInstance().queryById(id, User.class));
-        return null;
+    private Observable getUserFromMemory(final String arg) {
+        return Observable.just(DataCenter.instance().query(arg));
     }
 }

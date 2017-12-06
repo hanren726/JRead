@@ -8,8 +8,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar_civ"
-        android:layout_width="81dp"
-        android:layout_height="81dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginLeft="10dp"
         android:src="@android:color/holo_red_dark"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -65,13 +65,13 @@
 
     <TextView
         android:id="@+id/tv_description"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
         android:maxLines="2"
+        android:ellipsize="end"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@id/tv_name"
-        app:layout_constraintLeft_toRightOf="@+id/avatar_civ"
+        app:layout_constraintLeft_toLeftOf="@id/tv_follower"
         app:layout_constraintTop_toBottomOf="@id/tv_follower"
-        tools:text="这是我去过最美的地方" />
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="这是我去过最美的地方这是我去过最美的地方这是我去过最美的地方" />
 </android.support.constraint.ConstraintLayout>

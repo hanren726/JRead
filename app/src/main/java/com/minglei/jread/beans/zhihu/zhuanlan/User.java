@@ -344,35 +344,19 @@ public class User implements Parcelable{
         dest.writeByte((byte) (canPost ? 1 : 0));
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "followersCount=" + followersCount +
-                ", creator=" + creator +
-                ", activateState='" + activateState + '\'' +
-                ", href='" + href + '\'' +
-                ", acceptSubmission=" + acceptSubmission +
-                ", firstTime=" + firstTime +
-                ", pendingName='" + pendingName + '\'' +
-                ", avatar=" + avatar +
-                ", canManage=" + canManage +
-                ", description='" + description + '\'' +
-                ", nameCanEditUntil=" + nameCanEditUntil +
-                ", reason='" + reason + '\'' +
-                ", banUntil=" + banUntil +
-                ", slug='" + slug + '\'' +
-                ", name='" + name + '\'' +
-                ", url='" + url + '\'' +
-                ", intro='" + intro + '\'' +
-                ", topicsCanEditUntil=" + topicsCanEditUntil +
-                ", activateAuthorRequested='" + activateAuthorRequested + '\'' +
-                ", commentPermission='" + commentPermission + '\'' +
-                ", following=" + following +
-                ", postsCount=" + postsCount +
-                ", canPost=" + canPost +
-                ", topics=" + topics +
-                ", postTopics=" + postTopics +
-                ", pendingTopics=" + pendingTopics +
-                '}';
+    public UserEntity toUserEntity() {
+        UserEntity entity = new UserEntity();
+        entity.setFollowerCount(getFollowersCount());
+        entity.setAuthorName(getCreator().getName());
+        entity.setAvatarId(getAvatar().getId());
+        entity.setAvatarTemplate(getAvatar().getTemplate());
+        entity.setHref(getHref());
+        entity.setZhuanlanName(getName());
+        entity.setDescription(getDescription());
+        entity.setSlug(getSlug());
+        entity.setPostCount(getPostsCount());
+        entity.setUrl(getUrl());
+        return entity;
     }
+
 }
