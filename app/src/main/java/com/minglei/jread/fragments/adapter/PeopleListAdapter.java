@@ -35,6 +35,7 @@ public class PeopleListAdapter extends RecyclerView.Adapter<HolderBase> {
     }
 
     public void add(@NonNull UserEntity user) {
+        JLog.i(TAG, "add user is [%d]", user);
         mUsers.add(user);
         notifyItemInserted(mUsers.size() - 1);
     }
