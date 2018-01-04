@@ -1,5 +1,7 @@
 package com.minglei.jread.beans.zhihu.zhuanlan;
 
+import java.io.Serializable;
+
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 
@@ -17,7 +19,7 @@ import io.objectbox.annotation.Id;
  */
 
 @Entity
-public class UserEntity{
+public class UserEntity implements Serializable{
 
     @Id
     long id;

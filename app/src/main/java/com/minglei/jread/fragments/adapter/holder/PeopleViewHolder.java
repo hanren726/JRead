@@ -1,17 +1,16 @@
-package com.minglei.jread.fragments.adapter;
+package com.minglei.jread.fragments.adapter.holder;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.minglei.jread.JApplication;
 import com.minglei.jread.R;
-import com.minglei.jread.base.BaseViewHolder;
+import com.minglei.jread.activity.ZhuanlanDetailActivity;
 import com.minglei.jread.base.HolderBase;
-import com.minglei.jread.beans.zhihu.zhuanlan.User;
 import com.minglei.jread.beans.zhihu.zhuanlan.UserEntity;
 import com.minglei.jread.utils.JLog;
+import com.minglei.jread.utils.ZhuanlanUtil;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -19,7 +18,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by minglei on 2017/12/1.
  */
 
-public class PeopleViewHolder extends HolderBase<UserEntity>{
+public class PeopleViewHolder extends HolderBase<UserEntity> implements View.OnClickListener{
 
     public static final String TAG = PeopleViewHolder.class.getSimpleName();
 
@@ -29,11 +28,7 @@ public class PeopleViewHolder extends HolderBase<UserEntity>{
     private final TextView mPost;
     private final TextView mDescription;
     private Context mContext;
-
-    public static final String TEMPLATE_ID = "{id}";
-    public static final String TEMPLATE_SIZE = "{size}";
-    public static final String PIC_SIZE_XL = "xl";
-    public static final String PIC_SIZE_XS = "xs";
+    private UserEntity mUserEntity;
 
     public PeopleViewHolder(View itemView) {
         super(itemView);
@@ -43,14 +38,16 @@ public class PeopleViewHolder extends HolderBase<UserEntity>{
         mPost = (TextView) itemView.findViewById(R.id.tv_post_count);
         mDescription = (TextView) itemView.findViewById(R.id.tv_description);
         mContext = itemView.getContext();
+        itemView.setOnClickListener(this);
     }
 
     @Override
     public void bindHolder(UserEntity user) {
         super.bindHolder(user);
+        mUserEntity = user;
         JLog.i(TAG, "bindHolder user is [%s]", user);
         Glide.with(mContext)
-                .load(getAuthorAvatarUrl(user.getAvatarTemplate(), user.getAvatarId(), PIC_SIZE_XL))
+                .load(ZhuanlanUtil.getAuthorAvatarUrl(user.getAvatarTemplate(), user.getAvatarId(), ZhuanlanUtil.PIC_SIZE_XL))
                 .crossFade()
                 .into(mPhotoView);
         mName.setText(user.getZhuanlanName());
@@ -59,8 +56,8 @@ public class PeopleViewHolder extends HolderBase<UserEntity>{
         mDescription.setText(user.getDescription());
     }
 
-    private static String getAuthorAvatarUrl(String origin, String userId, String size) {
-        origin = origin.replace(TEMPLATE_ID, userId);
-        return origin.replace(TEMPLATE_SIZE, size);
+    @Override
+    public void onClick(View v) {
+        ZhuanlanDetailActivity.startActivity(mUserEntity);
     }
 }

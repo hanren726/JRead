@@ -22,5 +22,15 @@
         android:id="@+id/error_layout"
         layout="@layout/error_layout"
         android:visibility="gone" />
+
+    <com.minglei.jread.widget.ChooseDateView
+        android:id="@+id/chooseView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
+        android:layout_marginBottom="70dp"
+        android:layout_marginLeft="20dp"
+        android:visibility="gone"
+        />
 </FrameLayout>
 

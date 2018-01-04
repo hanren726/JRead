@@ -47,4 +47,6 @@ dependencies {
         exclude group: 'com.android.support'
     }
     compile 'de.hdodenhof:circleimageview:2.2.0'
+    compile 'com.makeramen:roundedimageview:2.2.1'
+
 }

@@ -6,9 +6,9 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <item name="type_header" type="integer"/>
-    <item name="type_footer" type="integer"/>
-    <item name="type_child" type="integer"/>
+    <item name="type_header" type="integer" />
+    <item name="type_footer" type="integer" />
+    <item name="type_child" type="integer" />
 
     <string name="zhihu_daily_choose_date_title">想看哪一天的日报呢～</string>
     <string name="zhihu_daily_choose_date_hint">无法查看未来哦～</string>
@@ -16,4 +16,8 @@
     <string name="zhihu_tab_top_title_2">知乎专栏</string>
     <string name="zhihu_zhuanlan_peoplelist_follow">%d 人关注</string>
     <string name="zhihu_zhuanlan_peoplelist_post">%d 文章</string>
+    <string name="post_name_time">%1$s ● %2$s </string>
+    <string name="post_like_comment_count">%1$d赞 ● %2$d条评论</string>
+    <string name="comment_count">%d comments</string>
+    <string name="like_count">%d Likes</string>
 </resources>

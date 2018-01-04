@@ -265,8 +265,6 @@ public class ZhihudailyAdapter extends GroupedRecyclerViewAdapter implements Vie
     @Override
     public void onSliderClick(BaseSliderView slider) {
         int id = slider.getBundle().getInt(BUNDLE_ID);
-        Intent intent = ZhihuDailyNewsWebActivity.getStartIntent();
-        intent.putExtra(ZhihuDailyNewsWebActivity.BUNDLE_ID, id);
-        mContext.startActivity(intent);
+        ZhihuDailyNewsWebActivity.startActivity(id);
     }
 }

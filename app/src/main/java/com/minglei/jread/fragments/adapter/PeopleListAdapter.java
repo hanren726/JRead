@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 
 import com.minglei.jread.R;
 import com.minglei.jread.base.HolderBase;
-import com.minglei.jread.beans.zhihu.zhuanlan.User;
 import com.minglei.jread.beans.zhihu.zhuanlan.UserEntity;
+import com.minglei.jread.fragments.adapter.holder.PeopleViewHolder;
 import com.minglei.jread.utils.JLog;
 
 import java.util.ArrayList;

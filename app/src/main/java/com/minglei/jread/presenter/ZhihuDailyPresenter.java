@@ -152,9 +152,7 @@ public class ZhihuDailyPresenter{
     }
 
     public void viewNews(StoriesBean storiesBean) {
-        Intent intent = ZhihuDailyNewsWebActivity.getStartIntent();
-        intent.putExtra(ZhihuDailyNewsWebActivity.BUNDLE_ID, storiesBean.getId());
-        mContext.startActivity(intent);
+        ZhihuDailyNewsWebActivity.startActivity(storiesBean.getId());
     }
 
     public void onUnInit() {

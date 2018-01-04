@@ -4,4 +4,6 @@
     <string name="zhihu_daily_choose_date_hint">无法查看未来哦～</string>
     <string name="zhihu_tab_top_title_1">知乎日报</string>
     <string name="zhihu_tab_top_title_2">知乎专栏</string>
+    <string name="comment_count">%d 评论</string>
+    <string name="like_count">%d 赞</string>
 </resources>

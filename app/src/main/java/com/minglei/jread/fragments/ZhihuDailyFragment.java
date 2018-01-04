@@ -67,19 +67,6 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (mChooseDateView == null) {
-            return;
-        }
-        if (isVisibleToUser) {
-            mChooseDateView.showView();
-        } else {
-            mChooseDateView.hideView();
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         checkNetwork();
@@ -108,9 +95,7 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
         retry.setOnClickListener(this);
         setting.setOnClickListener(this);
         mRefreshLayout = (SmartRefreshLayout) mRootView.findViewById(R.id.refreshLayout);
-        mChooseDateView = new ChooseDateView(getActivity());
-        mChooseDateView.addView(getActivity());
-        mChooseDateView.setId(R.id.zhihu_choose_date);
+        mChooseDateView = (ChooseDateView) mRootView.findViewById(R.id.chooseView);
         mChooseDateView.setOnClickListener(this);
 
         mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.recycler_zhihu_daily);
@@ -206,7 +191,7 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.zhihu_choose_date:
+            case R.id.chooseView:
                 showChooseDateDialog();
                 break;
             case R.id.error_retry:

@@ -52,7 +52,7 @@ public class ChooseDateView extends FrameLayout {
 
     public void showView() {
         ObjectAnimator.ofFloat(this, "alpha", 0.0f, 1.0f)
-                .setDuration(500)
+                .setDuration(300)
                 .start();
         setVisibility(VISIBLE);
     }
