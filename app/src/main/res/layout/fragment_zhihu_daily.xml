@@ -18,11 +18,6 @@
             android:overScrollMode="never" />
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    <include
-        android:id="@+id/error_layout"
-        layout="@layout/error_layout"
-        android:visibility="gone" />
-
     <com.minglei.jread.widget.ChooseDateView
         android:id="@+id/chooseView"
         android:layout_width="wrap_content"

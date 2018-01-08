@@ -20,4 +20,9 @@
     <string name="post_like_comment_count">%1$d赞 ● %2$d条评论</string>
     <string name="comment_count">%d comments</string>
     <string name="like_count">%d Likes</string>
+
+    <string name="loading_text">Loading</string>
+    <string name="websearch_network_error">主人，手机网络不太顺畅喔~</string>
+    <string name="websearch_network_retry">Retry</string>
+    <string name="network_setting">Network Settings</string>
 </resources>

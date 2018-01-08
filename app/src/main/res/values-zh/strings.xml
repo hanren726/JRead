@@ -6,4 +6,9 @@
     <string name="zhihu_tab_top_title_2">知乎专栏</string>
     <string name="comment_count">%d 评论</string>
     <string name="like_count">%d 赞</string>
+
+    <string name="loading_text">正在加載</string>
+    <string name="websearch_network_error">主人，手機網絡不太順暢喔~</string>
+    <string name="websearch_network_retry">重新加载</string>
+    <string name="network_setting">网络设置</string>
 </resources>

@@ -65,6 +65,7 @@ public class ZhihudailyAdapter extends GroupedRecyclerViewAdapter implements Vie
             JLog.i(TAG, "setData top story is [%s], story is [%s]",
                     mZhihuLatestNews.get(i).getTop_stories(), mZhihuLatestNews.get(i).getStories());
         }
+        notifyDataSetChanged();
     }
 
     public void updateData(ArrayList<ZhihuLatestNews> zhihuLatestNews) {

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.minglei.jread.R;
 import com.minglei.jread.base.BaseFragment;
 import com.minglei.jread.base.BaseViewHolder;
 import com.minglei.jread.base.GroupedRecyclerViewAdapter;
+import com.minglei.jread.beans.zhihu.zhihudaily.ZhihuLatestNews;
 import com.minglei.jread.fragments.adapter.ZhihudailyAdapter;
 import com.minglei.jread.fragments.interfaces.IZhihuDailyView;
 import com.minglei.jread.presenter.ZhihuDailyPresenter;
@@ -33,6 +35,7 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
@@ -43,9 +46,10 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
 
     private static final String TAG = ZhihuDailyFragment.class.getSimpleName();
 
+    public static final String KEY = "key_ZhihuLatestNews";
+
     private ZhihuDailyPresenter mPresenter;
     private View mRootView;
-    private View mErrorView;
     private ChooseDateView mChooseDateView;
     private RecyclerView mRecyclerView;
     private ZhihudailyAdapter mAdapter;
@@ -53,9 +57,10 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
     private SmartRefreshLayout mRefreshLayout;
     private DatePickerDialog dpd;
 
-    public static ZhihuDailyFragment newInstance() {
-        Bundle args = new Bundle();
+    public static ZhihuDailyFragment newInstance(ZhihuLatestNews zhihuLatestNews) {
         ZhihuDailyFragment fragment = new ZhihuDailyFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(KEY, zhihuLatestNews);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,33 +72,9 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        checkNetwork();
-    }
-
-    private void checkNetwork() {
-        if (!NetworkUtils.isNetworkAvailable()) {
-            mErrorView.setVisibility(View.VISIBLE);
-            mRefreshLayout.setVisibility(View.GONE);
-            mChooseDateView.hideView();
-        } else {
-            mErrorView.setVisibility(View.GONE);
-            mRefreshLayout.setVisibility(View.VISIBLE);
-            mChooseDateView.showView();
-            mPresenter.getDailyNews();
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_zhihu_daily, container, false);
-        mErrorView = mRootView.findViewById(R.id.error_layout);
-        TextView retry = (TextView) mErrorView.findViewById(R.id.error_retry);
-        TextView setting = (TextView) mErrorView.findViewById(R.id.error_network_setting);
-        retry.setOnClickListener(this);
-        setting.setOnClickListener(this);
         mRefreshLayout = (SmartRefreshLayout) mRootView.findViewById(R.id.refreshLayout);
         mChooseDateView = (ChooseDateView) mRootView.findViewById(R.id.chooseView);
         mChooseDateView.setOnClickListener(this);
@@ -147,7 +128,21 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
                 mRefreshLayout.finishLoadmore();
             }
         });
+        mRecyclerView.setAdapter(mAdapter);
         return mRootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Bundle args = getArguments();
+        if (args == null) {
+            return;
+        }
+        ArrayList<ZhihuLatestNews> allNews = new ArrayList<>();
+        allNews.clear();
+        allNews.add((ZhihuLatestNews) args.getSerializable(KEY));
+        mAdapter.setData(allNews);
     }
 
     @Override
@@ -171,11 +166,6 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
     }
 
     @Override
-    public View getErrorView() {
-        return mErrorView;
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         JLog.i(TAG, "onDestroy");
@@ -193,13 +183,6 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
         switch (v.getId()) {
             case R.id.chooseView:
                 showChooseDateDialog();
-                break;
-            case R.id.error_retry:
-                checkNetwork();
-                break;
-            case R.id.error_network_setting:
-                Intent intent = new Intent(android.provider.Settings.ACTION_SETTINGS);
-                startActivity(intent);
                 break;
         }
 
