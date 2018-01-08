@@ -32,6 +32,7 @@ public class ZhihuDailyNewsWebActivity extends AppCompatActivity implements IZhi
     public static void startActivity(int id) {
         Intent intent = new Intent(JApplication.getAppContext(), ZhihuDailyNewsWebActivity.class);
         intent.putExtra(ZhihuDailyNewsWebActivity.BUNDLE_ID, id);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         JApplication.getAppContext().startActivity(intent);
     }
 

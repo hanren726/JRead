@@ -49,6 +49,11 @@ public class ZhihuDailyPresenter{
         this.iZhihuDailyView = iZhihuDailyView;
     }
 
+    public void updateData(ArrayList<ZhihuLatestNews> zhihuLatestNews, String time) {
+        allNews.addAll(zhihuLatestNews);
+        mLatestTime = time;
+    }
+
     public void getDailyNews() {
         mRecyclerView = iZhihuDailyView.getRecyclerView();
         mAdapter = iZhihuDailyView.getAdapter();
@@ -101,7 +106,7 @@ public class ZhihuDailyPresenter{
 
                     @Override
                     public void onNext(ZhihuLatestNews zhihuLatestNews) {
-                        JLog.i(TAG, "zhihuLatestNews :[%s], time : [%s]", zhihuLatestNews,
+                        JLog.i(TAG, "getBeforeNews zhihuLatestNews :[%s], time : [%s]", zhihuLatestNews,
                                 zhihuLatestNews.getDate());
                         iZhihuDailyView.getRefreshLayout().setVisibility(View.VISIBLE);
                         allNews.add(zhihuLatestNews);

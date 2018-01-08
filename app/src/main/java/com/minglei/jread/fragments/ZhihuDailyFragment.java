@@ -140,8 +140,10 @@ public class ZhihuDailyFragment extends BaseFragment implements IZhihuDailyView,
             return;
         }
         ArrayList<ZhihuLatestNews> allNews = new ArrayList<>();
+        ZhihuLatestNews zhihuLatestNews = (ZhihuLatestNews) args.getSerializable(KEY);
         allNews.clear();
-        allNews.add((ZhihuLatestNews) args.getSerializable(KEY));
+        allNews.add(zhihuLatestNews);
+        mPresenter.updateData(allNews, zhihuLatestNews.getDate());
         mAdapter.setData(allNews);
     }
 

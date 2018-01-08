@@ -59,6 +59,11 @@ public class ZhihudailyAdapter extends GroupedRecyclerViewAdapter implements Vie
 
     private CompositeSubscription mSubscriptions = new CompositeSubscription();
 
+    public ZhihudailyAdapter(Context context) {
+        super(context);
+        mZhihuLatestNews = new ArrayList<>();
+    }
+
     public void setData(ArrayList<ZhihuLatestNews> zhihuLatestNews) {
         this.mZhihuLatestNews = zhihuLatestNews;
         for (int i = 0; i < mZhihuLatestNews.size(); i++) {
@@ -74,10 +79,6 @@ public class ZhihudailyAdapter extends GroupedRecyclerViewAdapter implements Vie
             JLog.i(TAG, "updateData top story is [%s], story is [%s]",
                     mZhihuLatestNews.get(i).getTop_stories(), mZhihuLatestNews.get(i).getStories());
         }
-    }
-
-    public ZhihudailyAdapter(Context context) {
-        super(context);
     }
 
     @Override
